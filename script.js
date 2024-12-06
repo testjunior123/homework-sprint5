@@ -78,7 +78,7 @@ function addRecord(input) {
                 const secPart = reversedFirstName.slice(1,3);
                 const last3lastName = input[i].lastName.slice(0,3).toLowerCase(); 
                 const reversedLastName = last3lastName.split("").reverse().join("");
-                input[i].nickname = final3FirstName.concat(reversedLastName);
+                //input[i].nickname = final3FirstName.concat(reversedLastName);
            
                 input[i].nickname = FirstletterBig+secPart+reversedLastName;
                 //console.log(input[i],final3FirstName,FirstletterBig )  // Tworzenie pseudonimu
@@ -88,4 +88,35 @@ function addRecord(input) {
     } 
 }
 
-  console.log(addRecord(sourceData));
+  //console.log(addRecord(sourceData));
+
+  const newSourceData = addRecord(sourceData);
+
+ //console.log(newSourceData);
+
+  const newArray= newSourceData.filter(element => element.nickname)
+
+  newArray.forEach((element,index,array) => {
+    const firstNameLength = element.firstName.length;
+      const lastNameLength = element.lastName.length;
+      const nickNameLength = element.nickname.length;
+      const age = firstNameLength + lastNameLength;
+
+    if(typeof element.nickname === "string"){
+      //console.log(element.firstName,firstNameLength)
+      if(age%2===0){   // liczba liter jest parzysta
+        element.age = age;
+      } else { // liczba liter nie jest parzysta
+        const keyLengthSum = Object.keys(element)
+        .filter(key => ['firstName', 'lastName', 'nickname'].includes(key)) // Filtrujemy odpowiednie klucze
+        .reduce((acc, key) => acc + key.length, 0);  // Zliczamy długość kluczy
+
+  // Obliczamy age (sumę długości kluczy podzieloną przez indeks osoby, z wyjątkiem indeksu 0)
+         const newAge = keyLengthSum / (index === 0 ? 1 : index); // Jeśli index = 0, dzielimy przez 1
+      element.age = newAge;  // Przypisujemy obliczoną wartość do pola 'age'
+    }
+  }
+});
+
+console.log(newArray);
+
