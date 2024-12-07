@@ -118,5 +118,31 @@ function addRecord(input) {
   }
 });
 
-console.log(newArray);
+//console.log(newArray);
 
+
+// zadanie 3
+
+const newArray2 = [...newArray];
+
+//console.log("nowa tabela",newArray2);
+
+newArray2.forEach((element,index,array)=> {
+  const allLetters = element.firstName+element.lastName+element.nickname;
+  //console.log(element.firstName+element.lastName+element.nickname)
+});
+
+// Zliczanie wystąpień liter w 'firstName' i 'lastName'
+const letterCount = newArray2.reduce((acc, person) => {
+  const fullName = person.firstName + person.lastName; // Łączymy imię i nazwisko
+  for (let char of fullName) {
+    // Pomijamy spacje oraz nie-alfabetyczne znaki
+    if (/[a-zA-Z]/.test(char)) {
+      char = char.toLowerCase(); // Zamieniamy literę na małą, aby zliczać bez rozróżnienia wielkości liter
+      acc[char] = (acc[char] || 0) + 1; // Zliczamy wystąpienia każdej litery
+    }
+  }
+  return acc;
+}, {});
+
+console.log(letterCount)
